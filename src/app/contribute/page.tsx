@@ -4,8 +4,14 @@ import { ContributeForm } from "./contribute-form";
 
 export const metadata: Metadata = { title: "Contribute" };
 
-export default function ContributePage() {
+export default async function ContributePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ section?: string }>;
+}) {
+  const { section } = await searchParams;
   const strategies = getAllStrategies().map((s) => ({ slug: s.slug, title: s.title }));
+  const initialSlug = strategies.some((s) => s.slug === section) ? section! : "";
 
   return (
     <div className="mx-auto max-w-2xl space-y-6">
@@ -18,7 +24,7 @@ export default function ContributePage() {
           GitHub, no CMS. It lands in the review queue and gets formatted into the hub.
         </p>
       </header>
-      <ContributeForm strategies={strategies} />
+      <ContributeForm strategies={strategies} initialStrategySlug={initialSlug} />
     </div>
   );
 }

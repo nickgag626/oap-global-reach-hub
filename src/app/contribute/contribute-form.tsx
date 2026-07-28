@@ -16,11 +16,13 @@ type ViewState =
 
 export function ContributeForm({
   strategies,
+  initialStrategySlug = "",
 }: {
   strategies: { slug: string; title: string }[];
+  initialStrategySlug?: string;
 }) {
   const [name, setName] = useState("");
-  const [strategySlug, setStrategySlug] = useState("");
+  const [strategySlug, setStrategySlug] = useState(initialStrategySlug);
   const [regions, setRegions] = useState<Region[]>([]);
   const [content, setContent] = useState("");
   const [links, setLinks] = useState<string[]>([""]);
