@@ -53,7 +53,30 @@ export default async function StrategyPage({
         </Suspense>
       </header>
 
-      <SegmentedMarkdown segments={doc.segments} activeRegion={activeRegion} />
+      {doc.segments.length === 0 ? (
+        <div className="rounded-xl border border-dashed border-neutral-300 bg-white px-6 py-14 text-center">
+          <p
+            aria-hidden="true"
+            className="text-5xl font-bold tabular-nums tracking-tight text-neutral-200"
+          >
+            {String(doc.strategy_number).padStart(2, "0")}
+          </p>
+          <h2 className="mt-3 text-lg font-semibold text-neutral-900">Nothing here yet</h2>
+          <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-neutral-600">
+            This section fills up as the team contributes. If you own an output that belongs
+            here — {doc.summary.charAt(0).toLowerCase() + doc.summary.slice(1)} — send it in
+            and it will be formatted into this page.
+          </p>
+          <Link
+            href={`/contribute?section=${doc.slug}`}
+            className="mt-6 inline-block rounded-md bg-okta-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-okta-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-okta-500"
+          >
+            Contribute to this section →
+          </Link>
+        </div>
+      ) : (
+        <SegmentedMarkdown segments={doc.segments} activeRegion={activeRegion} />
+      )}
 
       <nav aria-label="Strategy sections" className="flex justify-between border-t border-neutral-200 pt-5 text-sm">
         {prev ? (

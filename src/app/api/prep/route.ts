@@ -63,9 +63,11 @@ export async function POST(req: Request) {
     // Free text: give the model the full objection library plus the two most
     // objection-relevant strategy sections to ground on.
     for (const o of getObjections()) docs.push(doc(`Objection guide: ${o.title}`, o.body));
+    // Strategy sections start empty (populated by contributions) — only
+    // include them once they have real content.
     for (const slug of ["regional-pricing", "attendance-value"] as const) {
       const s = getStrategy(slug);
-      if (s) docs.push(doc(`Strategy: ${s.title}`, s.body));
+      if (s && s.body.trim()) docs.push(doc(`Strategy: ${s.title}`, s.body));
     }
     scenario = `The rep describes the scenario in their own words: "${input.freeText}"`;
   }
