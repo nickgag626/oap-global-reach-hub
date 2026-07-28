@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌐 OAP Global Reach Resource Hub
 
-## Getting Started
+Internal Okta site consolidating all Global Reach strategy outputs into a single, searchable
+resource for Sales/CS reps — with an AI-assisted conversation prep tool for global customer
+Oktane conversations.
 
-First, run the development server:
+- **Product spec:** [`readme.md` in oap-global-reach-proj](https://github.com/nick-gagliardi/oap-global-reach-proj)
+- **Build manual:** [`IMPLEMENTATION_GUIDE.md`](https://github.com/nickgag626/auth0-ia/blob/main/IMPLEMENTATION_GUIDE.md)
+
+## Stack
+
+Next.js (App Router, standalone output) · TypeScript · Tailwind CSS · markdown content in-repo ·
+iddb hosting + iddb Postgres (PostgREST) · internal LiteLLM gateway (server-side only).
+
+## Local development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev            # content/pages/search/filter work fully offline
+npm run validate:content
+npm run typecheck && npm run lint
+npm run build          # runs the content validator first (prebuild)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Optional `.env.local` (see `.env.local.example`) enables the AI prep tool and contribution
+store locally. Without it, prep returns a 502 (no key) and contribution features show
+"not provisioned" notices — by design, nothing crashes.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Content authoring
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+All content is markdown in `/content` with zod-validated frontmatter:
 
-## Learn More
+- `content/strategies/*.md` — the 8 strategy sections. Frontmatter: `title`,
+  `strategy_number` (1–8, unique), `owner`, `regions` (lowercase: `latam|apj|emea|pubsec`),
+  `status` (`placeholder|in-progress|complete` — feeds the tracker), `last_updated`, `summary`.
+- `content/regions/*.md`, `content/objections/*.md`, `content/verticals/*.md` — the AI prep
+  library. Frontmatter: `title`, `summary`, `last_updated` (+ `region` for region files).
 
-To learn more about Next.js, take a look at the following resources:
+Region-specific callouts inside strategy bodies:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+:::region latam
+LATAM-specific guidance…
+:::
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Draft copy is marked `[PLACEHOLDER]` — find/replace as real content lands. Run
+`npm run validate:content` after editing; the build refuses invalid content.
 
-## Deploy on Vercel
+## Deployment (iddb)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Provision via iddb MCP tooling (`apps_provision_web` / `apps_create`, `source_kind: git`).
+   `main` → production auto-deploy; branches → preview URLs.
+2. The platform injects `IDDB_URL`, `IDDB_APP_KEY`/`IDDB_SERVICE_KEY`/`IDDB_ANON_KEY`,
+   `IDDB_LLM_BASE_URL`, `IDDB_LLM_KEY`. No manual LLM key.
+3. **Before contribution features work:** run [`db/schema.sql`](db/schema.sql) against the
+   app's iddb Postgres via platform tooling. Until then the app degrades gracefully.
+4. Post-deploy checks:
+   - `GET /api/health` — env booleans + `db: ok|unprovisioned|error`.
+   - `GET /api/whoami` — inspect in an authenticated browser to confirm which header carries
+     the employee identity, then update `src/lib/identity.ts` accordingly (Discovery A).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Env var (optional) | Purpose |
+|---|---|
+| `ANTHROPIC_MODEL` | Model default (code default `claude-sonnet-4-6`; drop to `claude-haiku-4-5` if prep p50 > 5s) |
+| `PREP_TIMEOUT_MS` | LLM abort timeout, default 25000 — never higher (30s gateway cap) |
+| `ADMIN_EMAILS` | Comma-separated reviewer allowlist for contribution status changes (needs confirmed identity header) |
+| `ANTHROPIC_BASE_URL` / `ANTHROPIC_API_KEY` | Local-dev LLM fallback only |
+
+## Architecture notes
+
+- **LLM is server-side only** (`/api/prep`): the internal LiteLLM proxy is reachable from
+  iddb egress but blocked for browsers; the key never leaves the server. Every call aborts
+  at ≤25s. Output is grounded: the model may only use the content library passed in the
+  prompt and falls back to `insufficient_context` rather than inventing material.
+- **One DB table** (`contributions`, jsonb arrays). Section status intentionally lives in
+  frontmatter, not the DB — in-repo content deploys atomically with the app.
+- **Search** is client-side over a server-built index shipped via the root layout — no
+  endpoints, no infra.
+- The PostgREST service key has no RLS; all DB access happens in API routes, and the iddb
+  employee-auth gate is the app's perimeter.
