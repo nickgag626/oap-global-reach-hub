@@ -60,6 +60,16 @@ export const OBJECTION_LABELS: Record<Objection, string> = {
   "no-budget": "There's no budget for this",
 };
 
+/** The proactive prep mode — no objection yet, build the case for attending. */
+export const FIRST_INVITE = "first-invite" as const;
+export const SCENARIOS = [FIRST_INVITE, ...OBJECTIONS] as const;
+export type Scenario = (typeof SCENARIOS)[number];
+
+export const SCENARIO_LABELS: Record<Scenario, string> = {
+  [FIRST_INVITE]: "Making the first invite — no pushback yet",
+  ...OBJECTION_LABELS,
+};
+
 export const STRATEGY_SLUGS = [
   "icp",
   "target-accounts",
