@@ -6,6 +6,22 @@ const STYLES: Record<SectionStatus, { label: string; className: string }> = {
   complete: { label: "Complete", className: "bg-emerald-100 text-emerald-900" },
 };
 
+const DOT_COLORS: Record<SectionStatus, string> = {
+  placeholder: "bg-neutral-300",
+  "in-progress": "bg-amber-500",
+  complete: "bg-emerald-500",
+};
+
+/** Quieter alternative to the pill badge — a dot + label, for dense lists. */
+export function StatusDot({ status }: { status: SectionStatus }) {
+  return (
+    <span className="inline-flex items-center gap-1.5 whitespace-nowrap text-xs text-neutral-500">
+      <span aria-hidden="true" className={`h-2 w-2 rounded-full ${DOT_COLORS[status]}`} />
+      {STYLES[status].label}
+    </span>
+  );
+}
+
 export function StatusBadge({ status }: { status: SectionStatus }) {
   const s = STYLES[status];
   return (

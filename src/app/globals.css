@@ -16,6 +16,38 @@
   --color-okta-900: #1d1d21;
 }
 
+/* Single, restrained entrance: staggered rise on page load. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  opacity: 0;
+  animation: rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.rise-d1 { animation-delay: 0.06s; }
+.rise-d2 { animation-delay: 0.12s; }
+.rise-d3 { animation-delay: 0.18s; }
+.rise-d4 { animation-delay: 0.24s; }
+.rise-d5 { animation-delay: 0.3s; }
+.rise-d6 { animation-delay: 0.36s; }
+.rise-d7 { animation-delay: 0.42s; }
+.rise-d8 { animation-delay: 0.48s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
+    opacity: 1;
+  }
+}
+
 body {
   background: #f7f8fc;
   color: #1d1d21;
