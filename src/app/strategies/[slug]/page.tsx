@@ -59,7 +59,7 @@ export default async function StrategyPage({
         {prev ? (
           <Link
             href={{ pathname: `/strategies/${prev.slug}`, query: regionQuery }}
-            className="font-medium text-blue-800 hover:underline"
+            className="font-medium text-okta-600 hover:underline"
           >
             ← {prev.title}
           </Link>
@@ -69,7 +69,7 @@ export default async function StrategyPage({
         {next ? (
           <Link
             href={{ pathname: `/strategies/${next.slug}`, query: regionQuery }}
-            className="font-medium text-blue-800 hover:underline"
+            className="font-medium text-okta-600 hover:underline"
           >
             {next.title} →
           </Link>

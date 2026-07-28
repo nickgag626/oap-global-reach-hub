@@ -9,6 +9,9 @@ export default function HomePage() {
   return (
     <div className="space-y-10">
       <section className="max-w-3xl space-y-3">
+        <p className="text-xs font-bold uppercase tracking-widest text-okta-600">
+          Oktane Attendance Program
+        </p>
         <h1 className="text-3xl font-bold tracking-tight text-neutral-900">
           Global Reach Resource Hub
         </h1>
@@ -19,19 +22,19 @@ export default function HomePage() {
         <div className="flex flex-wrap gap-3 pt-2">
           <Link
             href="/prep"
-            className="rounded-md bg-neutral-900 px-4 py-2 text-sm font-semibold text-white hover:bg-neutral-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-700"
+            className="rounded-md bg-okta-600 px-4 py-2 text-sm font-semibold text-white hover:bg-okta-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-okta-500"
           >
             Prep a conversation →
           </Link>
           <Link
             href="/strategies"
-            className="rounded-md border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-800 hover:bg-neutral-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-700"
+            className="rounded-md border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-800 hover:bg-neutral-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-okta-500"
           >
             Browse strategies
           </Link>
           <Link
             href="/contribute"
-            className="rounded-md border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-800 hover:bg-neutral-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-700"
+            className="rounded-md border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-800 hover:bg-neutral-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-okta-500"
           >
             Contribute content
           </Link>
@@ -47,7 +50,7 @@ export default function HomePage() {
             <li key={s.slug}>
               <Link
                 href={`/strategies/${s.slug}`}
-                className="block h-full rounded-lg border border-neutral-200 bg-white p-4 hover:border-neutral-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-700"
+                className="block h-full rounded-lg border border-neutral-200 bg-white p-4 hover:border-neutral-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-okta-500"
               >
                 <div className="flex items-start justify-between gap-2">
                   <span className="text-sm font-semibold text-neutral-900">

@@ -32,7 +32,7 @@ type ViewState =
 const OTHER = "__other__";
 
 const selectCls =
-  "w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-700";
+  "w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-okta-500";
 const labelCls = "block text-sm font-medium text-neutral-800";
 
 export function PrepForm() {
@@ -190,7 +190,7 @@ export function PrepForm() {
         <button
           type="submit"
           disabled={!canSubmit || state.kind === "loading"}
-          className="rounded-md bg-neutral-900 px-4 py-2 text-sm font-semibold text-white hover:bg-neutral-700 disabled:cursor-not-allowed disabled:bg-neutral-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-700"
+          className="rounded-md bg-okta-600 px-4 py-2 text-sm font-semibold text-white hover:bg-okta-700 disabled:cursor-not-allowed disabled:bg-neutral-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-okta-500"
         >
           {state.kind === "loading" ? "Preparing…" : "Prep my conversation"}
         </button>

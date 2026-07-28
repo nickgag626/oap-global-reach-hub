@@ -45,7 +45,7 @@ export function CopyButton({ text, label }: { text: string; label?: string }) {
           timer.current = setTimeout(() => setCopied(false), 2000);
         }
       }}
-      className="inline-flex items-center rounded-md border border-neutral-300 px-2.5 py-1 text-xs font-medium text-neutral-700 hover:bg-neutral-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-700"
+      className="inline-flex items-center rounded-md border border-neutral-300 px-2.5 py-1 text-xs font-medium text-neutral-700 hover:bg-neutral-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-okta-500"
     >
       {copied ? "Copied ✓" : (label ?? "Copy")}
       <span aria-live="polite" className="sr-only">

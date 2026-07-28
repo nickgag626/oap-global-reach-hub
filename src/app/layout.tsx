@@ -36,8 +36,9 @@ export default async function RootLayout({
         <SearchProvider index={index}>
           <Nav pendingCount={pendingCount} />
           <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">{children}</main>
-          <footer className="border-t border-neutral-200 py-4 text-center text-xs text-neutral-500">
-            OAP Global Reach · internal use only · content marked [PLACEHOLDER] is draft
+          <footer className="bg-okta-900 py-4 text-center text-xs text-neutral-400">
+            <span className="font-semibold lowercase text-neutral-200">okta</span> · OAP Global
+            Reach · internal use only · content marked [PLACEHOLDER] is draft
           </footer>
         </SearchProvider>
       </body>

@@ -54,7 +54,7 @@ export default function TrackerPage() {
                   <td className="p-3">
                     <Link
                       href={`/strategies/${s.slug}`}
-                      className="font-medium text-blue-800 hover:underline"
+                      className="font-medium text-okta-600 hover:underline"
                     >
                       {s.title}
                     </Link>

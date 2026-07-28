@@ -79,8 +79,8 @@ export function ReviewQueue() {
   }
 
   const tabCls = (t: Tab) =>
-    `rounded-md px-3 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-700 ${
-      tab === t ? "bg-neutral-900 text-white" : "text-neutral-700 hover:bg-neutral-100"
+    `rounded-md px-3 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-okta-500 ${
+      tab === t ? "bg-okta-600 text-white" : "text-neutral-700 hover:bg-neutral-100"
     }`;
 
   return (
@@ -153,7 +153,7 @@ export function ReviewQueue() {
                           href={l}
                           target="_blank"
                           rel="noreferrer"
-                          className="break-all font-medium text-blue-800 underline"
+                          className="break-all font-medium text-okta-600 underline"
                         >
                           {l}
                         </a>

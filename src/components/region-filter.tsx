@@ -23,7 +23,7 @@ export function RegionFilter() {
   };
 
   const base =
-    "rounded-full border px-3 py-1 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-700";
+    "rounded-full border px-3 py-1 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-okta-500";
 
   return (
     <div role="group" aria-label="Filter by region" className="flex flex-wrap items-center gap-2">
@@ -33,7 +33,7 @@ export function RegionFilter() {
         onClick={() => setRegion(null)}
         className={`${base} ${
           active === null
-            ? "border-neutral-800 bg-neutral-800 text-white"
+            ? "border-okta-600 bg-okta-600 text-white"
             : "border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-100"
         }`}
       >
@@ -47,7 +47,7 @@ export function RegionFilter() {
           onClick={() => setRegion(r)}
           className={`${base} ${
             active === r
-              ? "border-neutral-800 bg-neutral-800 text-white"
+              ? "border-okta-600 bg-okta-600 text-white"
               : "border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-100"
           }`}
         >

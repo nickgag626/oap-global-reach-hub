@@ -106,7 +106,7 @@ export function Search() {
             setOpen(false);
           }
         }}
-        className="w-full rounded-md border border-neutral-300 bg-white px-3 py-1.5 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-700"
+        className="w-full rounded-md border border-neutral-300 bg-white px-3 py-1.5 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-okta-500"
       />
       {open && debounced && (
         <ul

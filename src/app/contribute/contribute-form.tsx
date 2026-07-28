@@ -5,7 +5,7 @@ import Link from "next/link";
 import { REGIONS, REGION_LABELS, type Region } from "@/lib/regions";
 
 const inputCls =
-  "w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-700";
+  "w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-okta-500";
 const labelCls = "block text-sm font-medium text-neutral-800";
 
 type ViewState =
@@ -199,7 +199,7 @@ export function ContributeForm({
           <button
             type="button"
             onClick={() => setLinks((prev) => [...prev, ""])}
-            className="text-sm font-medium text-blue-800 hover:underline"
+            className="text-sm font-medium text-okta-600 hover:underline"
           >
             + Add another link
           </button>
@@ -217,7 +217,7 @@ export function ContributeForm({
       <button
         type="submit"
         disabled={state.kind === "submitting"}
-        className="rounded-md bg-neutral-900 px-4 py-2 text-sm font-semibold text-white hover:bg-neutral-700 disabled:cursor-not-allowed disabled:bg-neutral-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-700"
+        className="rounded-md bg-okta-600 px-4 py-2 text-sm font-semibold text-white hover:bg-okta-700 disabled:cursor-not-allowed disabled:bg-neutral-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-okta-500"
       >
         {state.kind === "submitting" ? "Submitting…" : "Submit contribution"}
       </button>

@@ -1,8 +1,24 @@
 @import "tailwindcss";
 
+/*
+ * Okta-inspired theme (Odyssey-adjacent palette).
+ * okta-500 is the primary action blue; okta-900 is the Okta near-black
+ * used for the header. Region badge colors stay functional (AA-checked).
+ */
+@theme {
+  --color-okta-50: #f2f3fd;
+  --color-okta-100: #e1e5fb;
+  --color-okta-200: #c3cbf6;
+  --color-okta-500: #546be7;
+  --color-okta-600: #4054d6;
+  --color-okta-700: #3444ae;
+  --color-okta-800: #2a3781;
+  --color-okta-900: #1d1d21;
+}
+
 body {
-  background: #fafafa;
-  color: #171717;
+  background: #f7f8fc;
+  color: #1d1d21;
   font-family:
     ui-sans-serif,
     system-ui,

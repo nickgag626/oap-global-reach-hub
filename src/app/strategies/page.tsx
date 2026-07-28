@@ -43,7 +43,7 @@ export default async function StrategiesPage({
                       pathname: `/strategies/${s.slug}`,
                       query: region ? { region } : undefined,
                     }}
-                    className="font-semibold text-neutral-900 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-700"
+                    className="font-semibold text-neutral-900 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-okta-500"
                   >
                     {s.strategy_number}. {s.title}
                   </Link>
@@ -60,14 +60,14 @@ export default async function StrategiesPage({
                       pathname: `/strategies/${s.slug}`,
                       query: region ? { region } : undefined,
                     }}
-                    className="font-medium text-blue-800 hover:underline"
+                    className="font-medium text-okta-600 hover:underline"
                   >
                     Open section →
                   </Link>
                   <Link
                     href={`/contribute?section=${s.slug}`}
                     aria-label={`Contribute to ${s.title}`}
-                    className="font-medium text-blue-800 hover:underline"
+                    className="font-medium text-okta-600 hover:underline"
                   >
                     Contribute to this →
                   </Link>
