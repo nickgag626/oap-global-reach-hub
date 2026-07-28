@@ -49,6 +49,21 @@ export function Search() {
     return () => document.removeEventListener("mousedown", onClick);
   }, []);
 
+  // "/" focuses search from anywhere (unless already typing somewhere).
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "/" || e.metaKey || e.ctrlKey || e.altKey) return;
+      const t = e.target as HTMLElement | null;
+      if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.tagName === "SELECT" || t.isContentEditable)) {
+        return;
+      }
+      e.preventDefault();
+      rootRef.current?.querySelector("input")?.focus();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, []);
+
   const results = useMemo(() => {
     const tokens = debounced.toLowerCase().split(/\s+/).filter(Boolean);
     if (tokens.length === 0) return [];
@@ -74,6 +89,21 @@ export function Search() {
       <label htmlFor={`${listboxId}-input`} className="sr-only">
         Search the hub
       </label>
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 20 20"
+        fill="none"
+        className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400"
+      >
+        <circle cx="9" cy="9" r="5.5" stroke="currentColor" strokeWidth="1.5" />
+        <path d="m13.5 13.5 3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+      <kbd
+        aria-hidden="true"
+        className="pointer-events-none absolute right-2.5 top-1/2 hidden -translate-y-1/2 rounded border border-white/20 px-1.5 font-sans text-[10px] leading-4 text-neutral-400 sm:block"
+      >
+        /
+      </kbd>
       <input
         id={`${listboxId}-input`}
         type="search"
@@ -84,7 +114,7 @@ export function Search() {
           open && results.length > 0 ? `${listboxId}-opt-${highlightIdx}` : undefined
         }
         aria-autocomplete="list"
-        placeholder="Search…"
+        placeholder="Search the hub…"
         value={query}
         onChange={(e) => {
           setQuery(e.target.value);
@@ -106,7 +136,7 @@ export function Search() {
             setOpen(false);
           }
         }}
-        className="w-full rounded-md border border-neutral-300 bg-white px-3 py-1.5 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-okta-500"
+        className="w-full rounded-md border border-white/15 bg-white/10 py-1.5 pl-8 pr-8 text-sm text-white placeholder:text-neutral-400 transition-colors hover:bg-white/15 focus:border-okta-200/60 focus:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-okta-200 [&::-webkit-search-cancel-button]:hidden"
       />
       {open && debounced && (
         <ul

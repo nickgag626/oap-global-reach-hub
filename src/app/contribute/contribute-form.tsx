@@ -3,10 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { REGIONS, REGION_LABELS, type Region } from "@/lib/regions";
+import { Chip, FieldLabel } from "@/components/chip";
 
 const inputCls =
   "w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-okta-500";
-const labelCls = "block text-sm font-medium text-neutral-800";
 
 type ViewState =
   | { kind: "idle" }
@@ -85,45 +85,66 @@ export function ContributeForm({
     return (
       <div
         role="status"
-        className="rounded-lg border border-emerald-300 bg-emerald-50 p-5 text-emerald-900"
+        className="rounded-xl border border-emerald-300 bg-emerald-50 p-6 text-emerald-900"
       >
-        <p className="font-semibold">Thanks — your contribution is in the review queue. ✓</p>
-        <p className="mt-1 text-sm">
-          It will be reviewed and formatted into the appropriate strategy section.
+        <p className="text-lg font-semibold">In the queue ✓</p>
+        <p className="mt-1.5 text-sm leading-relaxed">
+          Thanks — your contribution is in the review queue and will be formatted into the
+          section soon.
         </p>
-        <Link href="/tracker" className="mt-2 inline-block text-sm font-medium underline">
-          View the tracker →
-        </Link>
+        <div className="mt-4 flex flex-wrap gap-4 text-sm font-medium">
+          <Link href="/tracker" className="underline underline-offset-2">
+            View the tracker →
+          </Link>
+          <button
+            type="button"
+            onClick={() => {
+              setContent("");
+              setLinks([""]);
+              setState({ kind: "idle" });
+            }}
+            className="underline underline-offset-2"
+          >
+            Submit another
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <form onSubmit={submit} className="space-y-4 rounded-lg border border-neutral-200 bg-white p-5">
-      <div className="space-y-1">
-        <label htmlFor="c-name" className={labelCls}>
-          Your name <span className="text-red-700">*</span>
-        </label>
+    <form onSubmit={submit} className="space-y-7">
+      {/* 01 — Who */}
+      <div className="space-y-3">
+        <FieldLabel step="01">
+          <label htmlFor="c-name">
+            Who are you? <span className="font-normal text-red-700">*</span>
+          </label>
+        </FieldLabel>
         <input
           id="c-name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           maxLength={120}
           required
-          className={inputCls}
+          placeholder="Your name"
+          className={`${inputCls} max-w-sm`}
         />
       </div>
 
-      <div className="space-y-1">
-        <label htmlFor="c-strategy" className={labelCls}>
-          Strategy section <span className="text-red-700">*</span>
-        </label>
+      {/* 02 — Where it belongs */}
+      <div className="space-y-3">
+        <FieldLabel step="02">
+          <label htmlFor="c-strategy">
+            Which strategy does it belong to? <span className="font-normal text-red-700">*</span>
+          </label>
+        </FieldLabel>
         <select
           id="c-strategy"
           value={strategySlug}
           onChange={(e) => setStrategySlug(e.target.value)}
           required
-          className={inputCls}
+          className={`${inputCls} max-w-sm`}
         >
           <option value="">Select a section…</option>
           {strategies.map((s) => (
@@ -134,46 +155,48 @@ export function ContributeForm({
         </select>
       </div>
 
-      <fieldset className="space-y-2">
-        <legend className={labelCls}>
-          Region(s) <span className="text-red-700">*</span>
+      {/* 03 — Regions */}
+      <fieldset className="space-y-3">
+        <legend>
+          <FieldLabel step="03">
+            Which regions does it cover? <span className="font-normal text-red-700">*</span>
+          </FieldLabel>
         </legend>
-        <div className="flex flex-wrap gap-x-4 gap-y-2">
+        <div className="flex flex-wrap gap-2">
           {REGIONS.map((r) => (
-            <label key={r} className="inline-flex items-center gap-2 text-sm text-neutral-800">
-              <input
-                type="checkbox"
-                checked={regions.includes(r)}
-                onChange={() => toggleRegion(r)}
-                className="h-4 w-4 rounded border-neutral-300"
-              />
+            <Chip key={r} selected={regions.includes(r)} onClick={() => toggleRegion(r)}>
               {REGION_LABELS[r]}
-            </label>
+            </Chip>
           ))}
         </div>
+        <p className="text-xs text-neutral-500">Pick every region it applies to.</p>
       </fieldset>
 
-      <div className="space-y-1">
-        <label htmlFor="c-content" className={labelCls}>
-          Content or summary <span className="text-red-700">*</span>
-        </label>
+      {/* 04 — The content */}
+      <div className="space-y-3">
+        <FieldLabel step="04">
+          <label htmlFor="c-content">
+            The output itself <span className="font-normal text-red-700">*</span>
+          </label>
+        </FieldLabel>
         <textarea
           id="c-content"
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          rows={6}
+          rows={7}
           maxLength={5000}
           required
-          placeholder="Paste the output itself, or a summary plus where to find it."
+          placeholder="Paste the content, or a summary plus where to find it."
           className={inputCls}
         />
         <p className="text-xs text-neutral-500">{content.length}/5000</p>
       </div>
 
-      <div className="space-y-2">
-        <span className={labelCls}>Links to supporting materials</span>
+      {/* 05 — Links */}
+      <div className="space-y-3">
+        <FieldLabel step="05">Supporting links</FieldLabel>
         {links.map((l, i) => (
-          <div key={i} className="flex gap-2">
+          <div key={i} className="flex max-w-lg gap-2">
             <input
               aria-label={`Supporting link ${i + 1}`}
               value={l}
@@ -188,7 +211,7 @@ export function ContributeForm({
                 type="button"
                 aria-label={`Remove link ${i + 1}`}
                 onClick={() => setLinks((prev) => prev.filter((_, j) => j !== i))}
-                className="rounded-md border border-neutral-300 px-2 text-sm text-neutral-600 hover:bg-neutral-100"
+                className="rounded-md border border-neutral-300 px-2.5 text-sm text-neutral-600 hover:bg-neutral-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-okta-500"
               >
                 ✕
               </button>
@@ -199,7 +222,7 @@ export function ContributeForm({
           <button
             type="button"
             onClick={() => setLinks((prev) => [...prev, ""])}
-            className="text-sm font-medium text-okta-600 hover:underline"
+            className="text-sm font-medium text-okta-600 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-okta-500"
           >
             + Add another link
           </button>
@@ -208,7 +231,7 @@ export function ContributeForm({
 
       <div aria-live="polite">
         {state.kind === "error" && (
-          <p className="rounded-md border border-red-300 bg-red-50 p-3 text-sm text-red-900">
+          <p className="rounded-lg border border-red-300 bg-red-50 p-3 text-sm text-red-900">
             {state.message}
           </p>
         )}
@@ -217,7 +240,7 @@ export function ContributeForm({
       <button
         type="submit"
         disabled={state.kind === "submitting"}
-        className="rounded-md bg-okta-600 px-4 py-2 text-sm font-semibold text-white hover:bg-okta-700 disabled:cursor-not-allowed disabled:bg-neutral-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-okta-500"
+        className="rounded-md bg-okta-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-okta-700 disabled:cursor-not-allowed disabled:bg-neutral-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-okta-500"
       >
         {state.kind === "submitting" ? "Submitting…" : "Submit contribution"}
       </button>

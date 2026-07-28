@@ -79,13 +79,17 @@ export function ReviewQueue() {
   }
 
   const tabCls = (t: Tab) =>
-    `rounded-md px-3 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-okta-500 ${
-      tab === t ? "bg-okta-600 text-white" : "text-neutral-700 hover:bg-neutral-100"
+    `rounded-md px-3.5 py-1.5 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-okta-500 ${
+      tab === t ? "bg-okta-600 text-white shadow-sm" : "text-neutral-600 hover:text-neutral-900"
     }`;
 
   return (
     <div className="space-y-4">
-      <div role="tablist" aria-label="Contribution status" className="flex gap-1">
+      <div
+        role="tablist"
+        aria-label="Contribution status"
+        className="inline-flex gap-1 rounded-lg border border-neutral-200 bg-white p-1"
+      >
         {(["pending", "incorporated", "declined"] as const).map((t) => (
           <button
             key={t}
@@ -131,7 +135,12 @@ export function ReviewQueue() {
         ) : (
           <ul className="space-y-3">
             {state.items.map((c) => (
-              <li key={c.id} className="rounded-lg border border-neutral-200 bg-white p-4">
+              <li
+                key={c.id}
+                className={`rounded-xl border border-neutral-200 bg-white p-4 ${
+                  tab === "pending" ? "border-l-4 border-l-okta-500" : ""
+                }`}
+              >
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex flex-wrap items-center gap-2 text-sm">
                     <span className="font-semibold text-neutral-900">{c.submitted_by}</span>
