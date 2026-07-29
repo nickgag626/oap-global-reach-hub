@@ -70,10 +70,13 @@ export function SpecSheet({
   activeRegion: Region | null;
 }) {
   const { lead, chapters } = buildChapters(segments);
+  const hasToc = chapters.length > 1;
 
   return (
-    <div className="gap-10 lg:grid lg:grid-cols-[200px_1fr] lg:items-start">
-      {chapters.length > 1 && (
+    // The 200px rail column only exists when the TOC renders — otherwise a
+    // lone content child would land in the narrow first track.
+    <div className={hasToc ? "gap-10 lg:grid lg:grid-cols-[200px_1fr] lg:items-start" : ""}>
+      {hasToc && (
         <nav
           aria-label="On this page"
           className="mb-8 hidden lg:sticky lg:top-6 lg:mb-0 lg:block"
