@@ -71,14 +71,14 @@ export const SCENARIO_LABELS: Record<Scenario, string> = {
 };
 
 export const STRATEGY_SLUGS = [
-  "icp",
-  "target-accounts",
-  "value-blueprints",
-  "channel-partners",
-  "demo-resources",
+  "icp-analysis",
+  "top-global-customers",
+  "regional-marketing",
+  "partner-channel",
+  "demo-attendance",
   "success-stories",
   "regional-pricing",
-  "attendance-value",
+  "voc-feedback",
 ] as const;
 export type StrategySlug = (typeof STRATEGY_SLUGS)[number];
 
