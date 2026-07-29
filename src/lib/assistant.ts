@@ -1,6 +1,7 @@
 import { cache } from "react";
 import {
   getAllStrategies,
+  getGuides,
   getObjections,
   getRegions,
   getSectionStatuses,
@@ -20,6 +21,7 @@ function doc(title: string, body: string): string {
 export const buildAssistantSystemPrompt = cache((): string => {
   const docs: string[] = [];
 
+  for (const g of getGuides()) docs.push(doc(`Field guide: ${g.title}`, g.body));
   for (const r of getRegions()) docs.push(doc(`Region guide: ${r.title}`, r.body));
   for (const v of getVerticals()) docs.push(doc(`Vertical guide: ${v.title}`, v.body));
   for (const o of getObjections()) docs.push(doc(`Objection guide: ${o.title}`, o.body));

@@ -85,7 +85,20 @@ export async function callLLMChat(opts: {
       body: JSON.stringify({
         model: opts.model ?? model,
         max_tokens: opts.maxTokens ?? 2048,
-        ...(opts.system ? { system: opts.system } : {}),
+        // The system prompt embeds the whole content library and is identical
+        // across calls — mark it cacheable so repeat queries within the cache
+        // TTL pay ~10% of the input price and process faster.
+        ...(opts.system
+          ? {
+              system: [
+                {
+                  type: "text",
+                  text: opts.system,
+                  cache_control: { type: "ephemeral" },
+                },
+              ],
+            }
+          : {}),
         messages: opts.messages,
       }),
     });
