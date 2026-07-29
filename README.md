@@ -22,8 +22,8 @@ npm run typecheck && npm run lint
 npm run build          # runs the content validator first (prebuild)
 ```
 
-Optional `.env.local` (see `.env.local.example`) enables the AI prep tool and contribution
-store locally. Without it, prep returns a 502 (no key) and contribution features show
+Optional `.env.local` (see `.env.local.example`) enables the AI assistant and contribution
+store locally. Without it, the assistant returns an error (no key) and contribution features show
 "not provisioned" notices — by design, nothing crashes.
 
 ## Content authoring
@@ -62,14 +62,14 @@ Draft copy is marked `[PLACEHOLDER]` — find/replace as real content lands. Run
 
 | Env var (optional) | Purpose |
 |---|---|
-| `ANTHROPIC_MODEL` | Model default (code default `claude-sonnet-4-6`; drop to `claude-haiku-4-5` if prep p50 > 5s) |
+| `ANTHROPIC_MODEL` | Model default (code default `claude-sonnet-4-6`; drop to `claude-haiku-4-5` if assistant p50 > 5s) |
 | `PREP_TIMEOUT_MS` | LLM abort timeout, default 25000 — never higher (30s gateway cap) |
 | `ADMIN_EMAILS` | Comma-separated reviewer allowlist for contribution status changes (needs confirmed identity header) |
 | `ANTHROPIC_BASE_URL` / `ANTHROPIC_API_KEY` | Local-dev LLM fallback only |
 
 ## Architecture notes
 
-- **LLM is server-side only** (`/api/prep`): the internal LiteLLM proxy is reachable from
+- **LLM is server-side only** (`/api/assistant`): the internal LiteLLM proxy is reachable from
   iddb egress but blocked for browsers; the key never leaves the server. Every call aborts
   at ≤25s. Output is grounded: the model may only use the content library passed in the
   prompt and falls back to `insufficient_context` rather than inventing material.
