@@ -1,8 +1,8 @@
 # 🌐 OAP Global Reach Resource Hub
 
 Internal Okta site consolidating all Global Reach strategy outputs into a single, searchable
-resource for Sales/CS reps — with an AI-assisted conversation prep tool for global customer
-Oktane conversations.
+resource for Sales/CS reps — with a grounded AI assistant covering all eight workstreams,
+from invite prep to pricing stories and success proof.
 
 - **Product spec:** [`readme.md` in oap-global-reach-proj](https://github.com/nick-gagliardi/oap-global-reach-proj)
 - **Build manual:** [`IMPLEMENTATION_GUIDE.md`](https://github.com/nickgag626/auth0-ia/blob/main/IMPLEMENTATION_GUIDE.md)
